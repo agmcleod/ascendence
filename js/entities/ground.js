@@ -12,5 +12,6 @@ game.Ground = me.Entity.extend({
         new me.Vector2d(this.width, this.height), new me.Vector2d(0, this.height)
       ]
     ));
+    this.body.collisionType = me.collision.types.WORLD_SHAPE;
   }
 });

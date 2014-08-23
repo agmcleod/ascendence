@@ -21,28 +21,26 @@ game.Player = me.Entity.extend({
       spriteheight: this.height,
       region: game.atlas.getRegion("player.png")
     });
-
+    this.body.collisionType = me.collision.types.PLAYER_OBJECT;
     this.renderable.addAnimation("walk", [0,1,2,3,2,1], 40);
     this.renderable.addAnimation("idle", [0], 1);
     this.renderable.setCurrentAnimation("walk");
   },
 
   collisionHandler: function (response) {
-    this.pos.sub(response.overlapV);
-    if (response.overlapN.y !== 0) {
-      this.body.vel.y = 0;
-    }
-    this.falling = false;
-    this.updateBounds();
+    switch (response.b.body.collisionType) {
+      case me.collision.types.WORLD_SHAPE:
+        this.pos.sub(response.overlapV);
+        if (response.overlapN.y !== 0) {
+          this.body.vel.y = 0;
+        }
+        this.falling = false;
+        this.updateBounds();
+        break;
+    };
   },
 
-  startWalkAnimation: function ()  {
-    if (!this.renderable.isCurrentAnimation("walk")) {
-      this.renderable.setCurrentAnimation("walk");
-    }
-  },
-
-  update: function (delta) {
+  handleInput: function () {
     if (me.input.isKeyPressed("left")) {
       this.body.vel.x -= this.body.accel.x;
       this.flipX(false);
@@ -55,14 +53,39 @@ game.Player = me.Entity.extend({
       this.startWalkAnimation();
     }
 
-    if (this.body.vel.x === 0 && !this.renderable.isCurrentAnimation("idle")) {
-      this.renderable.setCurrentAnimation("idle");
-    }
-
-
     if (me.input.isKeyPressed("jump")) {
       this.jumping = true;
       this.body.vel.y -= this.body.maxVel.y;
+    }
+
+    if (me.input.isKeyPressed("shoot")) {
+      var direction, x, y = 25 + this.pos.y;
+      // if facing right
+      if (this.lastflipX) {
+        direction = game.Bullet.RIGHT;
+        x = this.pos.x + this.width;
+      }
+      else {
+        direction = game.Bullet.LEFT;
+        x = this.pos.x;
+      }
+      var bullet = me.pool.pull("bullet", x, y, direction);
+      bullet.fireType = this.body.collisionType;
+      me.game.world.addChild(bullet, 4);
+    }
+  },
+
+  startWalkAnimation: function ()  {
+    if (!this.renderable.isCurrentAnimation("walk")) {
+      this.renderable.setCurrentAnimation("walk");
+    }
+  },
+
+  update: function (delta) {
+    this.handleInput();
+
+    if ((this.body.vel.x === 0 || this.body.vel.y !== 0) && !this.renderable.isCurrentAnimation("idle")) {
+      this.renderable.setCurrentAnimation("idle");
     }
 
     me.collision.check(this, true, this.collisionHandler.bind(this), true);

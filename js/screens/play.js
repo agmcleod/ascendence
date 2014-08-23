@@ -6,6 +6,9 @@ game.PlayScreen = me.ScreenObject.extend({
     me.input.bindKey(me.input.KEY.RIGHT, "right");
     me.input.bindKey(me.input.KEY.SPACE, "jump", true);
     me.input.bindKey(me.input.KEY.UP, "jump", true);
+    me.input.bindKey(me.input.KEY.DIVIDE, "shoot", true);
+    me.input.bindPointer(me.input.KEY.DIVIDE);
+    me.input.bindPointer(me.input.mouse.RIGHT, me.input.KEY.DIVIDE);
   },
 
   onResetEvent: function() {
@@ -22,7 +25,12 @@ game.PlayScreen = me.ScreenObject.extend({
     });
 
     me.game.world.addChild(beam, 2);
-    me.game.world.addChild(new game.Enemy(0, 150), 3);
+    
+    this.spawnEnemy();
+    var _this = this;
+    me.timer.setInterval(function () {
+      _this.spawnEnemy();
+    }, 400);
     
     this.player = new game.Player(200, game.GROUND_Y - 80);
     me.game.world.addChild(this.player, 3);
@@ -43,5 +51,9 @@ game.PlayScreen = me.ScreenObject.extend({
     me.input.unbindKey(me.input.KEY.RIGHT);
     me.input.unbindKey(me.input.KEY.SPACE);
     me.input.unbindKey(me.input.KEY.UP);
+  },
+
+  spawnEnemy: function () {
+    me.game.world.addChild(me.pool.pull("enemy", Number.prototype.random(20, 850), 150), 3);
   }
 });

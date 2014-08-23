@@ -23,27 +23,49 @@ game.Enemy = me.Entity.extend({
     this.renderable.setCurrentAnimation("walk");
 
     if (x <= game.middle) {
-      this.body.setVelocity(4, 0);
+      this.moveRight = true;
       this.flipX(true);
     }
     else {
-      this.body.setVelocity(-4, 0);
-    } 
+      this.moveRight = false;
+    }
+    this.body.setVelocity(4, 0);
     this.flipY(true);
     this.onTop = true;
+    this.health = 3;
   },
 
   collisionHandler: function (response) {
-    this.pos.sub(response.overlapV);
-    if (response.overlapN.y !== 0) {
-      this.body.vel.y = 0;
+    switch (response.b.body.collisionType) {
+      case me.collision.types.PROJECTILE_OBJECT:
+        this.takeDamage();
+        break;
+      case me.collision.types.WORLD_SHAPE:
+        this.pos.sub(response.overlapV);
+        if (response.overlapN.y !== 0) {
+          this.body.vel.y = 0;
+        }
+        this.falling = false;
+        this.updateBounds();
+        break;
+    };
+  },
+
+  takeDamage: function () {
+    this.health--;
+    if (this.health <= 0) {
+      me.game.world.removeChild(this);
     }
-    this.updateBounds();
   },
 
   update: function (delta) {
     this._super(me.Entity, "update", [delta]);
-    this.body.vel.x += this.body.accel.x;
+    if (this.moveRight) {
+      this.body.vel.x += this.body.accel.x;
+    }
+    else {
+      this.body.vel.x -= this.body.accel.x; 
+    }
 
     me.collision.check(this, true, this.collisionHandler.bind(this), true);
 

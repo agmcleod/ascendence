@@ -4,7 +4,7 @@ var game = {
   // Run on page load.
   "onload" : function () {
     // Initialize the video.
-    if (!me.video.init("screen",  me.video.CANVAS, 960, 640, true, '1')) {
+    if (!me.video.init("screen",  me.video.CANVAS, 960, 640, true, 'auto')) {
       alert("Your browser does not support HTML5 canvas.");
       return;
     }
@@ -13,6 +13,7 @@ var game = {
     if (document.location.hash === "#debug") {
       window.onReady(function () {
         me.plugin.register.defer(this, debugPanel, "debug");
+        me.debug.renderHitBox = true;
       });
     }
 
@@ -35,11 +36,16 @@ var game = {
       me.loader.getJSON("atlas"),
       me.loader.getImage("atlas")
     );
-    me.state.set(me.state.PLAY, new game.PlayScreen());
+
+    me.pool.register('bullet', game.Bullet, true);
+    me.pool.register('enemy', game.Enemy, true);
+
+    this.playScreen = new game.PlayScreen();
     this.middle = me.game.viewport.width / 2;
     this.GROUND_Y = 497;
 
     // Start the game.
+    me.state.set(me.state.PLAY, this.playScreen);
     me.state.change(me.state.PLAY);
   }
 };

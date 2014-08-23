@@ -18,11 +18,11 @@
 },
 {
 	"filename": "bullet.png",
-	"frame": {"x":964,"y":339,"w":6,"h":2},
+	"frame": {"x":964,"y":339,"w":12,"h":4},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":2},
-	"sourceSize": {"w":6,"h":2}
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":4},
+	"sourceSize": {"w":12,"h":4}
 },
 {
 	"filename": "enemies.png",
@@ -47,6 +47,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4234765b911686801a69fd4d00f1fd3d:1acf783f380fc964294e29c2d62277e2:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c5907b5d6a69fb1be695d714888eff99:52d8ab2977135908e8b709755c97b757:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
