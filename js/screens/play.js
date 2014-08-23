@@ -22,18 +22,10 @@ game.PlayScreen = me.ScreenObject.extend({
     me.game.world.addChild(beam, 2);
     me.game.world.addChild(new game.Enemy(0, 150), 3);
     
-    this.player = new game.Player(200, game.GROUND_Y - 64);
+    this.player = new game.Player(200, game.GROUND_Y - 80);
     me.game.world.addChild(this.player, 3);
 
-    var groundShape = new me.PolyShape(0, game.GROUND_Y, [
-      new me.Vector2d(), new me.Vector2d(me.game.viewport.width, 0),
-      new me.Vector2d(me.game.viewport.width, me.game.viewport.height - game.GROUND_Y),
-      new me.Vector2d(0, me.game.viewport.height - game.GROUND_Y)
-    ]);
-
-    groundShape.update = function () { return false; }
-
-    me.game.world.addChild(groundShape, 1);
+    me.game.world.addChild(new game.Ground(), 1);
 
     this.bindEvents();
   },

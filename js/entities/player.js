@@ -27,9 +27,17 @@ game.Player = me.Entity.extend({
     this.renderable.setCurrentAnimation("walk");
   },
 
-  collisionHandler : function (response) {
+  collisionHandler: function (response) {
+    this.pos.sub(response.overlapV);
     if (response.overlapN.y !== 0) {
-        this.body.vel.y = 0;
+      this.body.vel.y = 0;
+    }
+    this.updateBounds();
+  },
+
+  startWalkAnimation: function ()  {
+    if (!this.renderable.isCurrentAnimation("walk")) {
+      this.renderable.setCurrentAnimation("walk");
     }
   },
 
@@ -37,16 +45,22 @@ game.Player = me.Entity.extend({
     if (me.input.isKeyPressed("left")) {
       this.body.vel.x -= this.body.accel.x;
       this.flipX(false);
+      this.startWalkAnimation();
     }
 
     if (me.input.isKeyPressed("right")) {
       this.body.vel.x += this.body.accel.x;
       this.flipX(true);
+      this.startWalkAnimation();
     }
 
-    this.body.update();
+    if (this.body.vel.x === 0 && !this.renderable.isCurrentAnimation("idle")) {
+      this.renderable.setCurrentAnimation("idle");
+    }
 
     me.collision.check(this, true, this.collisionHandler.bind(this), true);
+
+    this.body.update();
 
     if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
       this._super(me.Entity, "update", [delta]);
