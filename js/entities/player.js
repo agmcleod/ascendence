@@ -25,17 +25,20 @@ game.Player = me.Entity.extend({
     this.renderable.addAnimation("walk", [0,1,2,3,2,1], 40);
     this.renderable.addAnimation("idle", [0], 1);
     this.renderable.setCurrentAnimation("walk");
+    this.canJump = true;
   },
 
   collisionHandler: function (response) {
     switch (response.b.body.collisionType) {
       case me.collision.types.WORLD_SHAPE:
-        this.pos.sub(response.overlapV);
-        if (response.overlapN.y !== 0) {
-          this.body.vel.y = 0;
+        if (!this.body.jumping) {
+          this.pos.sub(response.overlapV);
+          if (response.overlapN.y !== 0) {
+            this.body.vel.y = 0;
+          }
+          this.updateBounds();
+          this.canJump = true;
         }
-        this.falling = false;
-        this.updateBounds();
         break;
     };
   },
@@ -53,8 +56,9 @@ game.Player = me.Entity.extend({
       this.startWalkAnimation();
     }
 
-    if (me.input.isKeyPressed("jump")) {
-      this.jumping = true;
+    if (me.input.isKeyPressed("jump") && this.canJump) {
+      this.body.jumping = true;
+      this.canJump = false;
       this.body.vel.y -= this.body.maxVel.y;
     }
 

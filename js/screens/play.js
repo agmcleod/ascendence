@@ -28,9 +28,9 @@ game.PlayScreen = me.ScreenObject.extend({
     
     this.spawnEnemy();
     var _this = this;
-    me.timer.setInterval(function () {
+    /* me.timer.setInterval(function () {
       _this.spawnEnemy();
-    }, 400);
+    }, 400); */
     
     this.player = new game.Player(200, game.GROUND_Y - 80);
     me.game.world.addChild(this.player, 3);
