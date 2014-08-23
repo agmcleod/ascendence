@@ -33,14 +33,25 @@ game.Enemy = me.Entity.extend({
     this.onTop = true;
   },
 
+  collisionHandler: function (response) {
+    this.pos.sub(response.overlapV);
+    if (response.overlapN.y !== 0) {
+      this.body.vel.y = 0;
+    }
+    this.updateBounds();
+  },
+
   update: function (delta) {
     this._super(me.Entity, "update", [delta]);
     this.body.vel.x += this.body.accel.x;
+
+    me.collision.check(this, true, this.collisionHandler.bind(this), true);
+
     this.body.update();
 
     if (this.onTop && this.pos.x >= game.middle - this.width && this.pos.x <= game.middle + this.width) {
       this.renderable.setCurrentAnimation("idle");
-      this.body.setVelocity(0, 50);
+      this.body.setVelocity(0, 10);
       this.onTop = false;
     }
     else if (!this.onTop && !this.onBottom) {
@@ -48,13 +59,13 @@ game.Enemy = me.Entity.extend({
         this.flipY(false);
       }
 
-      if (this.pos.y >= game.GROUND_Y - this.height) {
-        this.body.setVelocity(0, 0);
-        this.onBottom = true;
-        this.pos.y = game.GROUND_Y - this.height;
-        this.body.pos.y = game.GROUND_Y - this.height;
-        this.body.updateBounds();
-      }
+      // if (this.pos.y >= game.GROUND_Y - this.height) {
+      //   this.body.setVelocity(0, 0);
+      //   this.onBottom = true;
+      //   this.pos.y = game.GROUND_Y - this.height;
+      //   this.body.pos.y = game.GROUND_Y - this.height;
+      //   this.body.updateBounds();
+      // }
     }
 
     return true;
