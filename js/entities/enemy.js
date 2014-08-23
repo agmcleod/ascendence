@@ -58,14 +58,6 @@ game.Enemy = me.Entity.extend({
       if (this.pos.y >= 250) {
         this.flipY(false);
       }
-
-      // if (this.pos.y >= game.GROUND_Y - this.height) {
-      //   this.body.setVelocity(0, 0);
-      //   this.onBottom = true;
-      //   this.pos.y = game.GROUND_Y - this.height;
-      //   this.body.pos.y = game.GROUND_Y - this.height;
-      //   this.body.updateBounds();
-      // }
     }
 
     return true;

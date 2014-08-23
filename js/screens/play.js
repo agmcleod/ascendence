@@ -4,6 +4,8 @@ game.PlayScreen = me.ScreenObject.extend({
     me.input.bindKey(me.input.KEY.LEFT, "left");
     me.input.bindKey(me.input.KEY.D, "right");
     me.input.bindKey(me.input.KEY.RIGHT, "right");
+    me.input.bindKey(me.input.KEY.SPACE, "jump", true);
+    me.input.bindKey(me.input.KEY.UP, "jump", true);
   },
 
   onResetEvent: function() {
@@ -25,7 +27,7 @@ game.PlayScreen = me.ScreenObject.extend({
     this.player = new game.Player(200, game.GROUND_Y - 80);
     me.game.world.addChild(this.player, 3);
 
-    me.game.world.addChild(new game.Ground(), 1);
+    me.game.world.addChild(new game.Ground(), 2);
 
     this.bindEvents();
   },
@@ -37,5 +39,9 @@ game.PlayScreen = me.ScreenObject.extend({
   onDestroyEvent: function() {
     me.input.unbindKey(me.input.KEY.A);
     me.input.unbindKey(me.input.KEY.D);
+    me.input.unbindKey(me.input.KEY.LEFT);
+    me.input.unbindKey(me.input.KEY.RIGHT);
+    me.input.unbindKey(me.input.KEY.SPACE);
+    me.input.unbindKey(me.input.KEY.UP);
   }
 });

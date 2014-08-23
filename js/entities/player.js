@@ -12,8 +12,8 @@ game.Player = me.Entity.extend({
       ]
     ));
 
-    this.body.setVelocity(6, 10);
-    this.body.setFriction(0.4,0);
+    this.body.setVelocity(6, 15);
+    this.body.setFriction(0.4, 0);
 
     this.renderable = new me.AnimationSheet(0, 0, {
       image: game.atlas.getTexture(),
@@ -32,6 +32,7 @@ game.Player = me.Entity.extend({
     if (response.overlapN.y !== 0) {
       this.body.vel.y = 0;
     }
+    this.falling = false;
     this.updateBounds();
   },
 
@@ -58,8 +59,13 @@ game.Player = me.Entity.extend({
       this.renderable.setCurrentAnimation("idle");
     }
 
-    me.collision.check(this, true, this.collisionHandler.bind(this), true);
 
+    if (me.input.isKeyPressed("jump")) {
+      this.jumping = true;
+      this.body.vel.y -= this.body.maxVel.y;
+    }
+
+    me.collision.check(this, true, this.collisionHandler.bind(this), true);
     this.body.update();
 
     if (this.body.vel.x !== 0 || this.body.vel.y !== 0) {
