@@ -16,6 +16,7 @@ game.PlayScreen = me.ScreenObject.extend({
     });
 
     me.game.world.addChild(beam, 2);
+    me.game.world.addChild(new game.Enemy(0, 150), 3);
   },
 
 

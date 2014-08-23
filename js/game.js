@@ -36,6 +36,7 @@ var game = {
       me.loader.getImage("atlas")
     );
     me.state.set(me.state.PLAY, new game.PlayScreen());
+    this.middle = me.game.viewport.width / 2;
 
     // Start the game.
     me.state.change(me.state.PLAY);
