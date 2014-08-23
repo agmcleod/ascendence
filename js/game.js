@@ -37,6 +37,7 @@ var game = {
     );
     me.state.set(me.state.PLAY, new game.PlayScreen());
     this.middle = me.game.viewport.width / 2;
+    this.GROUND_Y = 497;
 
     // Start the game.
     me.state.change(me.state.PLAY);

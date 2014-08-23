@@ -18,6 +18,14 @@
 },
 {
 	"filename": "enemies.png",
+	"frame": {"x":2,"y":710,"w":128,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":64},
+	"sourceSize": {"w":128,"h":64}
+},
+{
+	"filename": "player.png",
 	"frame": {"x":2,"y":644,"w":128,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -31,6 +39,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a1b1fc008975590ef308e3632994a20f:83a7c2e9fb951c77190756296532ab46:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:72c42cc26d3ac14d8003c8b35d7629d4:72b4856854e241513f8f898af987d1f4:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
