@@ -31,6 +31,10 @@ var game = {
 
   // Run on game resources loaded.
   "loaded" : function () {
+    this.atlas = new me.TextureAtlas(
+      me.loader.getJSON("atlas"),
+      me.loader.getImage("atlas")
+    );
     me.state.set(me.state.PLAY, new game.PlayScreen());
 
     // Start the game.
